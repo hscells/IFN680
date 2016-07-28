@@ -2,7 +2,7 @@
 # IFN680 Advanced Topics in Artificial Intelligence
 # Python 2.7
 
-from aima.probability import ProbDist, JointProbDist
+from aima.probability import ProbDist, JointProbDist, enumerate_joint_ask
 
 # -----------------
 
@@ -27,9 +27,18 @@ print(Pr.is_valid())  # Whoops! -> suddenly the probabilities do not sum to 1
 # -----------------
 
 # We can have an object to represent the probability distribution for a set of random variables
-Pr = JointProbDist(['Mt', 'Ct'])
+Pr = JointProbDist(['MT', 'Ct'])
 Pr['Eng', 'E'], Pr['Eng', 'S'], Pr['Eng', 'W'] = 0.836, 0.056, 0.024
 Pr['Scot', 'E'], Pr['Scot', 'S'], Pr['Scot', 'W'] = 0.0352, 0.024, 0
 Pr['Wel', 'E'], Pr['Wel', 'S'], Pr['Wel', 'W'] = 0.0088, 0, 0.016
 print(Pr.show_approx())
 print(Pr.values('Mt'))
+
+# -----------------
+
+# Get a ProbDist object representing the conditional probability
+# This function returns a probability distribution over the values of variable X, given the
+# observation e, in the joint probability distribution P, or P(X|e)
+CP = enumerate_joint_ask('MT', {'Ct': 'E'}, Pr)
+print(CP.show_approx())
+print(CP['Eng'])
