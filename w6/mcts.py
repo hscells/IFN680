@@ -117,7 +117,7 @@ class MCTS_player(game.Player):
         PRE
            Some actions haven't been tried yet
         '''
-        action = random.choice(node.action)  # INSERT YOUR CODE HERE  : just the rest of the line
+        action = random.choice(node.untried_actions)  # INSERT YOUR CODE HERE  : just the rest of the line
         node.untried_actions.remove(action)
         child_state = node.state.clone()
         child_state.do_move(action)  # INSERT YOUR CODE HERE  : just the rest of the line
@@ -133,7 +133,7 @@ class MCTS_player(game.Player):
         '''
         roll_out_state = node.state.clone()
         while not roll_out_state.is_terminal():    
-            move = roll_out_state.legal_moves().pop()  # INSERT YOUR CODE HERE  : just the rest of the line
+            move = random.choice(roll_out_state.legal_moves())  # INSERT YOUR CODE HERE  : just the rest of the line
             roll_out_state.do_move(move)  # INSERT YOUR CODE HERE  : just the rest of the line
         return -1 if node.state.turn == roll_out_state.turn else +1
 

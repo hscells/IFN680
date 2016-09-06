@@ -190,14 +190,10 @@ class Quantumboard(object):
         #
         #	INSERT YOUR CODE HERE
         #
-        neighbours = []
-        neighbours.append(self.board[i-1])
-        neighbours.append(self.board[i+1])
-        if 0 < i+self.n < len(self.board):
-            neighbours.append(self.board[i+self.n])
-        if 0 < i-self.n < len(self.board):
-            neighbours.append(self.board[i-self.n])
-        return neighbours
+        return [ self.rc2i(r+dr,c+dc)
+                 for dr,dc in ((-1,0),(1,0),(0,-1),(0,1),(-1,1),(1,-1))
+                 if (0<=r+dr<self.n) and (0<=c+dc<self.n) and (3<r+dr+c+dc<5+8)
+                 and self.board[self.rc2i(r+dr,c+dc)] in colors]
 
 
 
@@ -270,8 +266,8 @@ class Quantumgame(Quantumboard,game.Game):
         '''
         assert len(self.history)>0  # check that history is not empty
         from_i, to_i = self.history.pop()
-        self.board[to_i] = 0 # INSERT YOUR CODE HERE  : just the rest of the line
-        self.board[from_i] = 0 # INSERT YOUR CODE HERE  : just the rest of the line
+        self.board[to_i] = self.turn # INSERT YOUR CODE HERE  : just the rest of the line
+        self.board[from_i] = -self.turn # INSERT YOUR CODE HERE  : just the rest of the line
         self.turn = -self.turn
         self.cache_legal_moves = None
         return from_i , to_i
